@@ -1,0 +1,191 @@
+import java.io.*;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Program {
+
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введіть номер завдання: ");
+        switch (scanner.nextInt()) {
+            case 1:
+                task1();
+                break;
+            case 2:
+                task2();
+                break;
+            default:
+                System.out.println("Не вірний номер завдання");
+        }
+    }
+
+    /**
+     * метод для запуска першого завдання
+     *
+     */
+
+    public static void task1() {
+        List<Character> characterList = Arrays.asList('о' ,'а' , 'у' , 'і' , 'е' , 'и' , 'О' ,'А' , 'У' , 'І' , 'У' , 'И' );
+        try {
+            File file = new File("task1.txt");
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            List<String> list = new LinkedList<>();
+            StringBuilder last = new StringBuilder();
+            while (true) {
+                int b = reader.read();
+                if (b == -1) {
+                    if (!last.toString().equals("")) {
+                        list.add(last.toString());
+                    }
+                    break;
+                } else {
+                    char c = (char) b;
+                    if (c == ' ') {
+                        if (!last.toString().equals("")) {
+                            list.add(last.toString());
+                            last = new StringBuilder();
+                        }
+                    } else {
+                        last.append(c);
+                    }
+                }
+            }
+            System.out.printf("Кількість слів що закінчуються на приголосну: %s\n" ,
+                    list.stream().filter(s -> characterList.contains(s.charAt(s.length() - 1))).count());
+            list.forEach(s -> {
+                if(s.length() < 5) {
+                    System.out.printf("%s " , s);
+                }
+            });
+            System.out.println("");
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Метод для запуска другого завдання
+     *
+     */
+
+    public static void task2() {
+        try {
+            File file = new File("task2.txt");
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            int countFirst = 0;
+            int countSecond = 0;
+            while (true) {
+                int b = reader.read();
+                if (b == -1) {
+                    break;
+                } else {
+                    char c = (char) b;
+                    if(c == '(') {
+                        countFirst++;
+                    }
+                    if(c == ')') {
+                        if(countFirst == 0) {
+                            System.out.println("Не правильна відповідність розмущення дужок");
+                            return;
+                        }
+                        countFirst--;
+                    }
+                    if(c == '{') {
+                        countSecond++;
+                    }
+                    if(c == '}') {
+                        if(countSecond == 0) {
+                            System.out.println("Не правильна відповідність розмущення дужок");
+                            return;
+                        }
+                        countSecond--;
+                    }
+                }
+            }
+            if(countFirst != 0 || countSecond != 0) {
+                System.out.println("Не правильна відповідність розмущення дужок");
+            }
+            System.out.println("В данному коді відповідність дужок правильна!");
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+}
+
+
+
+task1.txt------------------------------------------------------__________---------_------__---_-----__---_--_-_--_---_--__--_-_-_-
+привіт привіт фівф ів фівфів фів фів
+task2.txt------------------------------------------------------__________---------_------__---_-----__---_--_-_--_---_--__--_-_-_-
+$(function() {
+    function monitoring() {
+        qx.load_elements(meta.site_url + 'monitoring', {
+            'token': meta.token
+        }, function(data) {
+            if (!data.type) {
+                setTimeout(function() {
+                    monitoring();
+                }, 5000);
+                return qx.notify(data.text);
+            }
+            $('#online-players').text(data.online);
+            setTimeout(function() {
+                monitoring();
+            }, 4000);
+        }, false, function(data) {
+            setTimeout(function() {
+                monitoring();
+            }, 5000);
+            console.log(data);
+        });
+    }
+    setTimeout(function() {
+        monitoring();
+    }, 100);
+
+    function start_animation_logo() {
+        var is_white = $('#mainNav .navbar-brand').hasClass('whited');
+        var elements = $('#mainNav .navbar-brand > span');
+        var changed = false;
+        elements.each(function() {
+            var that = $(this);
+            if (that.hasClass('changed')) {
+                return;
+            }
+            if (is_white) {
+                that.addClass('changed').css({
+                    'color': '#fff'
+                });
+            } else {
+                that.addClass('changed').css({
+                    'color': '#ffc107'
+                });
+            }
+            changed = true;
+            return false;
+        });
+        if (!changed && !is_white) {
+            $('#mainNav .navbar-brand').addClass('whited');
+            $('#mainNav .navbar-brand > span.changed').removeClass('changed');
+        } else if (!changed && is_white) {
+            $('#mainNav .navbar-brand').removeClass('whited');
+            $('#mainNav .navbar-brand > span.changed').removeClass('changed');
+        }
+        setTimeout(function() {
+            start_animation_logo();
+        }, 100);
+    }
+    setTimeout(function() {
+        var sitename = $('#mainNav .navbar-brand').text();
+        var split = sitename.split('');
+        var str = '';
+        for (var i = 0; i < split.length; i++) {
+            str += '<span style="color: #ffc107;">' + split[i] + '</span>';
+        }
+        $('#mainNav .navbar-brand').html(str).addClass('whited');
+        start_animation_logo();
+    }, 50);
+});
+
