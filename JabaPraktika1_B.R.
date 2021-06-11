@@ -1,0 +1,164 @@
+interface.fxml----------------------__-_--_-_____--__--_--_-_--_------_-_--_-__---------__-_-_--_--------_---
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cv.bloody.ua.controllers.AppController">
+   <children>
+      <TextField fx:id="answear" layoutX="133.0" layoutY="320.0" onAction="#onAction" prefHeight="28.0" prefWidth="334.0" style="-fx-border-width: 0px 0px 2px 0px; -fx-border-color: #2e0ecc; -fx-background-color: transparent;" />
+      <TextField fx:id="a" layoutX="150.0" layoutY="29.0" onAction="#onAction" prefHeight="28.0" prefWidth="102.0" style="-fx-border-width: 0px 0px 2px 0px; -fx-border-color: #2e0ecc; -fx-background-color: transparent;" />
+      <Text fill="#2e0ecc" layoutX="36.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Введіть число a" />
+      <Button layoutX="179.0" layoutY="206.0" mnemonicParsing="false" onAction="#onAction" prefHeight="54.0" prefWidth="238.0" style="-fx-background-color: #2e0ecc;" text="Получити відповідь" textFill="WHITE">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Button>
+      <Text fill="#5b00eb" layoutX="36.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Введіть число b" />
+      <TextField fx:id="b" layoutX="150.0" layoutY="89.0" onAction="#onAction" prefHeight="28.0" prefWidth="102.0" style="-fx-border-width: 0px 0px 2px 0px; -fx-border-color: #2e0ecc; -fx-background-color: transparent;" />
+      <Text fill="#5b00eb" layoutX="36.0" layoutY="338.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Відповідь" />
+      <Text fx:id="wrong" fill="#eb0000" layoutX="133.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fill="#2e0ecc" layoutX="299.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Введіть число c" />
+      <Text fill="#5b00eb" layoutX="298.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Введіть число d" />
+      <TextField fx:id="d" layoutX="422.0" layoutY="89.0" onAction="#onAction" prefHeight="28.0" prefWidth="102.0" style="-fx-border-width: 0px 0px 2px 0px; -fx-border-color: #2e0ecc; -fx-background-color: transparent;" />
+      <TextField fx:id="c" layoutX="422.0" layoutY="43.0" onAction="#onAction" prefHeight="28.0" prefWidth="102.0" style="-fx-border-width: 0px 0px 2px 0px; -fx-border-color: #2e0ecc; -fx-background-color: transparent;" />
+   </children>
+</AnchorPane>
+
+
+
+App.class-------------------------------------------------___------_----_-----------
+
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
+package cv.bloody.ua;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class App extends Application {
+    public App() {
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    public void start(Stage primaryStage) throws IOException {
+        Parent root = (Parent)FXMLLoader.load((URL)Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource("interface.fxml")));
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
+}
+
+AppController.java---------------------------------------------------------------------------------------------
+package cv.bloody.ua.controllers;
+
+import javafx.event.ActionEvent;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+
+import java.awt.*;
+
+public class AppController {
+
+
+    public TextField a;
+    public TextField b;
+    public TextField c;
+    public TextField d;
+
+    public Text wrong;
+
+    public TextField answear;
+
+    public void onAction(ActionEvent actionEvent) {
+        int a , b, c , d;
+        try {
+            a = Integer.parseInt(this.a.getText());
+            b = Integer.parseInt(this.b.getText());
+            c = Integer.parseInt(this.c.getText());
+            d = Integer.parseInt(this.d.getText());
+        }catch (Exception e) {
+            e.printStackTrace();
+            wrong.setText("Не правильний числовий формат");
+            return;
+        }
+        if(a > b) {
+            if(a >= c && b <= c) {
+                answear.setText("1");
+                return;
+            }
+            if(a >= d && b <= d) {
+                answear.setText("1");
+                return;
+            }
+        }
+        if(a <= b) {
+            if(b >= c && a <= c) {
+                answear.setText("1");
+                return;
+            }
+            if(b >= d && a <= d) {
+                answear.setText("1");
+                return;
+            }
+        }
+        answear.setText("0");
+
+    }
+
+
+
+
+
+    public static boolean intersect(Point ab, Point cd) {
+        double val = (ab.x * cd.x) + (ab.y * cd.y);
+
+        if (val == 0)
+            return true;
+
+        return false;
+    }
+
+}
+
+App.java-------------------------------------------------------------------------------------------
+
+
+package cv.bloody.ua;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.Objects;
+
+public class App extends Application {
+
+    public static void main(String[]args){
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource("interface.fxml")));
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
+}
