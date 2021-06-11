@@ -1,0 +1,179 @@
+AppController.java---------------------------------------------------____---__---__---_-----_-_______------_-----_------_----_-_--_---
+
+
+package cv.bloody.ua.controllers;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+
+import java.awt.*;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class AppController implements Initializable {
+
+    public TextField a2;
+    public TextField answear2;
+
+    public TextField a;
+    public TextField b;
+
+    public TextField answear;
+
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setListener(a);
+        setListener(b);
+        a2.textProperty().addListener(event -> {
+            try {
+                int num = Integer.parseInt(a2.getText());
+                switch (num) {
+                    case 10:
+                        answear2.setText("Десять");
+                        break;
+                    case 11:
+                        answear2.setText("Оданидцять");
+                        break;
+                    case 12:
+                        answear2.setText("Дванадцять");
+                        break;
+                    case 13:
+                        answear2.setText("Тринадцять");
+                        break;
+                    case 14:
+                        answear2.setText("Чотирнадцять");
+                        break;
+                    case 15:
+                        answear2.setText("Пятнадцять");
+                        break;
+                    case 16:
+                        answear2.setText("Шістнадцять");
+                        break;
+                    case 17:
+                        answear2.setText("Сімнадцять");
+                        break;
+                    case 18:
+                        answear2.setText("Вісімнадцять");
+                        break;
+                    case 19:
+                        answear2.setText("Девятнадцять");
+                        break;
+                    case 20:
+                        answear2.setText("Двадцять");
+                        break;
+                    default:
+                        answear2.setText("You NIGGA");
+                }
+            }catch (Exception ignored) {
+                answear.setText("");
+            }
+        });
+    }
+
+    private void setListener(TextField b2) {
+        b2.textProperty().addListener(event -> {
+            try {
+                double a = Double.parseDouble(this.a.getText());
+                double b = Double.parseDouble(this.b.getText());
+                answear.setText(String.valueOf(Math.sqrt((a*a) + (b*b))));
+            }catch (Exception ignored) {
+                answear.setText("");
+            }
+        });
+    }
+}
+
+
+App.java----------------------------_____-----____-------___------___-------__----------______-----___----__--__-----
+
+
+package cv.bloody.ua;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.Objects;
+
+public class App extends Application {
+
+    public static void main(String[]args){
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource("interface.fxml")));
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
+}
+
+interface.fxml________---------__-------------_--__-_-_--_--_-_--_--------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cv.bloody.ua.controllers.AppController">
+   <children>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="Завдання1">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="answear" layoutX="361.0" layoutY="172.0" prefHeight="28.0" prefWidth="106.0" style="-fx-border-width: 0px 0px 2px 0px; -fx-border-color: #2e0ecc; -fx-background-color: transparent;" />
+                        <TextField fx:id="a" layoutX="363.0" layoutY="36.0" prefHeight="28.0" prefWidth="102.0" style="-fx-border-width: 0px 0px 2px 0px; -fx-border-color: #2e0ecc; -fx-background-color: transparent;" />
+                        <Text fill="#2e0ecc" layoutX="135.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Введіть число a" />
+                        <Text fill="#5b00eb" layoutX="134.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Введіть число b" />
+                        <TextField fx:id="b" layoutX="363.0" layoutY="95.0" prefHeight="28.0" prefWidth="102.0" style="-fx-border-width: 0px 0px 2px 0px; -fx-border-color: #2e0ecc; -fx-background-color: transparent;" />
+                        <Text fill="#5b00eb" layoutX="152.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Відповідь" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Завдання 2">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Text fill="#2e0ecc" layoutX="48.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Введіть число">
+                           <font>
+                              <Font size="33.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="a2" layoutX="346.0" layoutY="25.0" prefHeight="74.0" prefWidth="205.0" style="-fx-border-width: 0px 0px 2px 0px; -fx-border-color: #2e0ecc; -fx-background-color: transparent;">
+                           <font>
+                              <Font size="33.0" />
+                           </font>
+                        </TextField>
+                        <Text fill="#2e0ecc" layoutX="48.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Відповідь">
+                           <font>
+                              <Font size="33.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="answear2" layoutX="346.0" layoutY="202.0" prefHeight="74.0" prefWidth="205.0" style="-fx-border-width: 0px 0px 2px 0px; -fx-border-color: #2e0ecc; -fx-background-color: transparent;">
+                           <font>
+                              <Font size="33.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
+
+
