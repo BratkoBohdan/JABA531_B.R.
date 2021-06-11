@@ -1,0 +1,371 @@
+Program.java-------------------------------------------------------------------------------------------
+
+
+
+import task1.Database;
+
+import java.util.Scanner;
+
+public class Program {
+
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введіть номер завдання: ");
+        switch (scanner.nextInt()) {
+            case 1:
+                task1();
+                break;
+            case 2:
+                task2();
+                break;
+            default:
+                System.out.println("Не вірний номер завдання");
+        }
+    }
+
+
+    public static void task1() {
+        Scanner scanner = new Scanner(System.in);
+        int n = 0;
+        do {
+            System.out.println("Введіть 1 щоб добавити компютер, 2 відсортувати,3 знайти найкращий компютер по ОЗУ і Дисковій памяті , 4 щоб вийти");
+            n = scanner.nextInt();
+            if(n == 1) {
+                Database.getInstance().inputeComputer();
+            }else if(n == 2) {
+                Database.getInstance().sort();
+            }else if(n == 3) {
+                Database.getInstance().findMost();
+            }else {
+                System.out.println("Невідома операція");
+            }
+
+        }while (n != 4);
+    }
+
+    public static void task2() {
+        Scanner scanner = new Scanner(System.in);
+        int n = 0;
+        do {
+            System.out.println("Введіть 1 щоб добавити запис, " +
+                    "2 щоб редагувати запис, " +
+                    "3 щоб знищити запис, " +
+                    "4 пошук інформації, " +
+                    "5 вихід");
+            n = scanner.nextInt();
+            if(n == 1) {
+                task2.Database.getInstance().inputFlight();
+            }else if(n == 2) {
+                task2.Database.getInstance().edit();
+            }else if(n == 3) {
+                task2.Database.getInstance().delete();
+            }else if(n == 4) {
+                task2.Database.getInstance().search();
+            }else {
+                System.out.println("Невідома операція");
+            }
+
+        }while (n != 5);
+    }
+
+}
+
+
+Database.class___----------_----_------_-__--_-__--_---_----_---_-__-__-------__---_--_--__--_--_-------------------
+
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
+package task2;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class Database {
+    private static final Database instance = new Database();
+    private List<Flight> list = new ArrayList();
+
+    public static Database getInstance() {
+        return instance;
+    }
+
+    private Database() {
+    }
+
+    public void inputFlight() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введіть номер рейсу");
+        int flightNumber = scanner.nextInt();
+        System.out.println("Введіть тип літака");
+        String typeAirplane = scanner.nextLine();
+        System.out.println("Введіть напрямок руху");
+        String directionOfMovement = scanner.nextLine();
+        System.out.println("Введіть періодичність вилетів");
+        String frequencyOfDepartures = scanner.nextLine();
+        this.list.add(new Flight(flightNumber, typeAirplane, directionOfMovement, frequencyOfDepartures));
+    }
+
+    public void edit() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введіть номер рейсу");
+        int flightNumber = scanner.nextInt();
+        Optional<Flight> flight = this.list.stream().filter((t) -> {
+            return t.getFlightNumber() == flightNumber;
+        }).findFirst();
+        if (!flight.isPresent()) {
+            System.out.println("Не існує рейсу");
+        } else {
+            System.out.println(flight.get());
+            System.out.println("Введіть 1 щоб змінити напрямок руху, 2 щоб змінити періодичність вильоту");
+            int operation = scanner.nextInt();
+            switch(operation) {
+            case 1:
+                System.out.println("Ввудіть напрямок руху");
+                ((Flight)flight.get()).setDirectionOfMovement(scanner.nextLine());
+                break;
+            case 2:
+                System.out.println("Ввудіть періодичність вильоту");
+                ((Flight)flight.get()).setFrequencyOfDepartures(scanner.nextLine());
+                break;
+            default:
+                System.out.println("Невідома операція");
+            }
+
+        }
+    }
+
+    public void delete() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введіть номер рейсу");
+        int flightNumber = scanner.nextInt();
+        Optional<Flight> flight = this.list.stream().filter((t) -> {
+            return t.getFlightNumber() == flightNumber;
+        }).findFirst();
+        if (!flight.isPresent()) {
+            System.out.println("Рейса не існує");
+        } else {
+            System.out.println(flight.get());
+            System.out.println("Ви дійсно хочете видалити даного викладача? Введіть \"так\" для пітвердження");
+            if (scanner.nextLine().equalsIgnoreCase("так")) {
+                this.list.remove(flight.get());
+            }
+
+            System.out.println("Рейс успішно видалений");
+        }
+    }
+
+    public void search() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введіть номер рейсу");
+        int flightNumber = scanner.nextInt();
+        AtomicInteger integer = new AtomicInteger(0);
+        this.list.stream().filter((f) -> {
+            return f.getFlightNumber() == flightNumber;
+        }).forEach((f) -> {
+            System.out.printf("%s) %s\n", integer.incrementAndGet(), f);
+        });
+    }
+}
+
+
+
+
+Database.java___----------_----_------_-__--_-__--_---_----_---_-__-__-------__---_--_--__--_--_-------------------
+
+
+package task2;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class Database {
+
+    private static final Database instance = new Database();
+
+    public static Database getInstance() {
+        return instance;
+    }
+
+    private List<Flight> list;
+
+    private Database() {
+        list = new ArrayList<>();
+    }
+
+    public void inputFlight() {
+        int flightNumber;
+        String typeAirplane;
+        String directionOfMovement;
+        String frequencyOfDepartures;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введіть номер рейсу");
+        flightNumber = scanner.nextInt();
+        System.out.println("Введіть тип літака");
+        typeAirplane = scanner.nextLine();
+        System.out.println("Введіть напрямок руху");
+        directionOfMovement = scanner.nextLine();
+        System.out.println("Введіть періодичність вилетів");
+        frequencyOfDepartures = scanner.nextLine();
+        list.add(new Flight(flightNumber , typeAirplane , directionOfMovement , frequencyOfDepartures));
+    }
+
+    public void edit() {
+        int flightNumber;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введіть номер рейсу");
+        flightNumber = scanner.nextInt();
+        Optional<Flight> flight = list.stream().filter(t -> t.getFlightNumber() == flightNumber).findFirst();
+        if(!flight.isPresent()) {
+            System.out.println("Не існує рейсу");
+            return;
+        }
+        System.out.println(flight.get());
+        System.out.println("Введіть 1 щоб змінити напрямок руху, 2 щоб змінити періодичність вильоту");
+        int operation = scanner.nextInt();
+        switch (operation) {
+            case 1:
+                System.out.println("Ввудіть напрямок руху");
+                flight.get().setDirectionOfMovement(scanner.nextLine());
+                break;
+            case 2:
+                System.out.println("Ввудіть періодичність вильоту");
+                flight.get().setFrequencyOfDepartures(scanner.nextLine());
+                break;
+            default:
+                System.out.println("Невідома операція");
+        }
+    }
+
+    public void delete() {
+        int flightNumber;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введіть номер рейсу");
+        flightNumber = scanner.nextInt();
+        Optional<Flight> flight = list.stream().filter(t -> t.getFlightNumber() == flightNumber).findFirst();
+        if(!flight.isPresent()) {
+            System.out.println("Рейса не існує");
+            return;
+        }
+        System.out.println(flight.get());
+        System.out.println("Ви дійсно хочете видалити даного викладача? Введіть \"так\" для пітвердження");
+        if(scanner.nextLine().equalsIgnoreCase("так")) {
+            list.remove(flight.get());
+        }
+        System.out.println("Рейс успішно видалений");
+    }
+
+    public void search() {
+        int flightNumber;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введіть номер рейсу");
+        flightNumber = scanner.nextInt();
+        AtomicInteger integer = new AtomicInteger(0);
+        list.stream().filter(f-> f.getFlightNumber() == flightNumber)
+                .forEach(f -> {
+                    System.out.printf("%s) %s\n" , integer.incrementAndGet() , f);
+                });
+    }
+}
+
+Flight.java-------__----------------------------------------------------------------------------------------
+
+package task2;
+
+public class Flight {
+
+    private final int flightNumber;
+    private final String typeAirplane;
+    private String directionOfMovement;
+    private String frequencyOfDepartures;
+
+    public Flight(int flightNumber , String typeAirplane , String directionOfMovement , String frequencyOfDepartures) {
+        this.flightNumber = flightNumber;
+        this.typeAirplane = typeAirplane;
+        this.directionOfMovement = directionOfMovement;
+        this.frequencyOfDepartures = frequencyOfDepartures;
+    }
+
+    public void setDirectionOfMovement(String directionOfMovement) {
+        this.directionOfMovement = directionOfMovement;
+    }
+
+    public void setFrequencyOfDepartures(String frequencyOfDepartures) {
+        this.frequencyOfDepartures = frequencyOfDepartures;
+    }
+
+    public int getFlightNumber() {
+        return flightNumber;
+    }
+
+    public String getDirectionOfMovement() {
+        return directionOfMovement;
+    }
+
+    public String getFrequencyOfDepartures() {
+        return frequencyOfDepartures;
+    }
+
+    public String getTypeAirplane() {
+        return typeAirplane;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("flightNumber = %s , directionOfMovement = %s , frequencyOfDepartures = %s , typeAirplane = %s" ,
+                flightNumber , directionOfMovement , frequencyOfDepartures , typeAirplane);
+    }
+}
+
+
+
+Computer.java-------__----------------------------------------------------------------------------------------
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
+package task1;
+
+public class Computer {
+    private final String cpu;
+    private final String monitorProperty;
+    private final int clockFrequency;
+    private final int ram;
+    private final int memory;
+
+    public Computer(String cpu, int clockFrequency, int ram, int memory, String monitorProperty) {
+        this.cpu = cpu;
+        this.clockFrequency = clockFrequency;
+        this.ram = ram;
+        this.memory = memory;
+        this.monitorProperty = monitorProperty;
+    }
+
+    public String getCpu() {
+        return this.cpu;
+    }
+
+    public int getRam() {
+        return this.ram;
+    }
+
+    public int getMemory() {
+        return this.memory;
+    }
+
+    public String toString() {
+        return String.format("cpu = %s , clock frequency = %s , ram = %s , memory = %s , monitor property = %s", this.cpu, this.clockFrequency, this.ram, this.memory, this.monitorProperty);
+    }
+}
+
+
